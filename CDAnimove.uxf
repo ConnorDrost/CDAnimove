@@ -1,0 +1,190 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>6</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>258</x><y>426</y><w>132</w><h>78</h></coordinates><panel_attributes>&lt;&lt;AGameModeBase&gt;&gt;
+UEGameMode
+--
+
+
+--
+# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>492</x><y>426</y><w>264</w><h>192</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+Board
+--
+UPROPERTY(EditAnywhere, Category = "Actor Visual")
++ BoardSprite: UPaperSpriteComponent
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
++ LeftBorder: UBoxComponent*
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
++ RightBorder: UBoxComponent*
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
++ TopBorder: UBoxComponent*
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
++ BottomBorder: UBoxComponent*
+--
++ Tick(DeltaTime: float): void &lt;virtual override&gt;
+
+# BeginPlay(): void &lt;virtaul override&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>438</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+has</panel_attributes><additional_attributes>180;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>438</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+has</panel_attributes><additional_attributes>10;20;130;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>426</y><w>186</w><h>114</h></coordinates><panel_attributes>&lt;&lt;AHUD&gt;&gt;
+AGameHUD
+--
+UPROPERTY(EditAnywhere, Category = "Game Hud")
++ PlayerGuiClass: TSubclassOf&lt;UUserWidget&gt;
+
+UPROPERTY()
++ PlayerGui: UUserWidget*
+--
+# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>804</x><y>426</y><w>702</w><h>648</h></coordinates><panel_attributes>&lt;&lt;ACharacter&gt;&gt;
+MainChar
+--
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
++ IdleAnimation:UPaperFlipBook*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
++ JumpAnimation:UPaperFlipBook*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
++ RunAnimation:UPaperFlipBook*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
++ AttackAnimation:UPaperFlipBook*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera)
++ Camera:UCamerComponent*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera)
++ SpringArm:USpringArmComponent*
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
++ AttackBox:UBoxComponent*
+
+UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
++ bIsAttacking:bool
+
++ WeaponDelay:float
++ bIsAlive:bool
++ bCanBeDamaged:bool
+
+UPROPERTY(VisibleAnywhere, Category = "Combat")
++ bCanAttack:bool
+
++ attackDelayHandle:FTimerHandle
++ timerHandle:FtimerHandle
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
++ NoiseEmitter:UPawnNoiseEmitterComponent*
+
+--
++ Player()
+
++ SetupPlayerInputComponent(PlayerInputComponent:UInputComponent): void &lt;virtual override&gt; 
+
++ Tick(DeltaSeconds:float): void &lt;virtual void&gt;
+
++ MoveRight(value:float): void 
+
++ UpdateAnimation(): void
+
++ UpdatePlayer(): void
+
++ ResetWeaponDelay(): void
+
++ Attack(): void
++ EndAttack(): void
+
++ ActivateCollision(Comp:UBoxComponent*): void
++ DeactivateCollision(Comp:UBoxComponent*): void
+
+UFUNCTION()
++ MakeSomeNoise(): void
+
++ Jump(): void &lt;virtual void&gt;
+
+UFUNCTION()
++ CombatOverlapBegin(OverlappedComponent:UPrimitiveComponent*, OtherActor:AActor*, OtherComp:UPrimitiveComponent*, OtherBodyIndex:int32, bFromSweep:bool, SweepResult:const FHitResult&amp;)
+
+UFUNCTION()
++ CombatOverlapEnd(OverlappedComponent:UPrimitiveComponent*, OtherActor:AActor*, OtherComp:UPrimitiveComponent*, OtherBodyIndex:int32)
+
+# BeginPlay()" void &lt;virtual void&gt;
+
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>576</y><w>126</w><h>90</h></coordinates><panel_attributes>&lt;&lt;AGameStateBase&gt;&gt;
+UEGameState
+--
++ PlayerScore: float
+
+--
+
+UFUNCTION()
++ GetPlayerScore(): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>312</x><y>498</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+has</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1572</x><y>426</y><w>300</w><h>426</h></coordinates><panel_attributes>&lt;&lt;AMainChar&gt;&gt;
+AI
+--
+
+UPROPERTY(VisibleAnywhere, Category = "AI")
+ # GuardState:EAIState
+
+UPROPERTY(VisibleAnywhere, Category = "Components")
+# PawnSensingComp:UPawnSensingComponent*
+
+UPROPERTY(EditInstanceOnly, Category = "AI")
+# bPatrol:bool
+
+UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition="bPatrol"))
+# FirstPatrolPoint:AActor*
+
+UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition="bPatrol"))
+# SecondPatrolPoint:AActor*
+
+# CurrentPatrolPoint:AActor*
+
+- TargetActor:AActor*
+
+- pController:AController*
+
+# OriginalRotation:FRotator
+
+--
+ + AI(): void
+
+# BeginPlay(): void &lt;virtual override&gt;
+
++ Tick(DeltaTime:float): void &lt;virtual override&gt;
+
+# SetGuardState(NewState:EAIState): void
+
+UFUNCTION()
+# OnPawnSeen(SeenPawn:APawn*): void
+
+UFUNCTION()
+# ResetOrientation(): void
+
+UFUNCTION()
+# ResetAIState(): void
+
+UFUNCTION()
+# MoveToNextPatrolPoint(): void
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1932</x><y>426</y><w>126</w><h>84</h></coordinates><panel_attributes>&lt;&lt;Enum Class&gt;&gt;
+EAIState
+--
+UENUM(BluePrintType)
+
+Idle:uint8
+Alerted:uint8
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1500</x><y>450</y><w>84</w><h>18</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1866</x><y>456</y><w>78</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+has</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element></diagram>
