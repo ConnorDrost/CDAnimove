@@ -54,9 +54,6 @@ protected:
 	AActor* CurrentPatrolPoint = nullptr;
 
 	UFUNCTION()
-		void ResetAIState();
-
-	UFUNCTION()
 		void MoveToNextPatrolPoint();
 
 	//PawnSensing
@@ -67,7 +64,8 @@ protected:
 		void OnPawnSeen(APawn* SeenPawn);
 
 	//Combat
-	virtual void Attack() override;
+	UFUNCTION()
+		void CheckAggression();
 
 	virtual void IfDead() override;
 

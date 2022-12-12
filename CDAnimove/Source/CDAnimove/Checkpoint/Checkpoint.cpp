@@ -16,7 +16,8 @@ ACheckpoint::ACheckpoint()
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>("SceneRoot");
 	CollisionBox->SetCollisionProfileName("OverlapAll");
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	CollisionBox->SetGenerateOverlapEvents(true);
 	CollisionBox->SetupAttachment(CheckpointSprite);
 
 	IsChecked = false;

@@ -9,17 +9,21 @@
 /**
  * 
  */
-UCLASS()
-class CDANIMOVE_API AMainChar : public APaperCharacter
+UENUM(BlueprintType)
+enum class EMainCharState : uint8
+{
+	Ninja,
+
+	Monkey
+};
+
+USTRUCT(BlueprintType)
+struct FCharacterFlipbook
 {
 	GENERATED_BODY()
 
 public:
 
-	//Constructor
-	AMainChar();
-
-	//Animations
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* IdleAnimation;
 
@@ -34,19 +38,24 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* DeathAnimation;
+};
 
-	virtual void UpdateAnimation();
+UCLASS()
+class CDANIMOVE_API AMainChar : public APaperCharacter
+{
+	GENERATED_BODY()
+
+public:
+
+	//Constructor
+	AMainChar();
 
 	//Camera
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 		class UCameraComponent* CameraComponent;
 
-	FName CameraComponentName;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 		class USpringArmComponent* SpringArmComponent;
-
-	FName SpringArmComponentName;
 
 	//Combat
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
@@ -67,7 +76,7 @@ public:
 	void ActivateCollision(UBoxComponent* Comp);
 	void DeactivateCollision(UBoxComponent* Comp);
 
-	virtual void Attack();
+	void Attack();
 	void EndAttack();
 	virtual  void IfDead();
 	void ResetWeaponDelay();
@@ -116,5 +125,28 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
+
+	//Animations
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+		FCharacterFlipbook NinjaFlipbooks;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+		FCharacterFlipbook MonkeyFlipbooks;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+		FCharacterFlipbook CurrentFlipbooks;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+		TMap<FString, FCharacterFlipbook> AllFlipbooks;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+		EMainCharState CurrentMainCharState;
+
+	void SetCorrectFlipbooks();
+
+	virtual void UpdateAnimation();
+
+	void ChangeMainCharState();
 
 };

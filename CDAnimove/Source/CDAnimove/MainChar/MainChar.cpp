@@ -23,7 +23,6 @@ AMainChar::AMainChar()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = true;
 
-
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->SetUsingAbsoluteRotation(true);
@@ -32,6 +31,8 @@ AMainChar::AMainChar()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
+	CameraComponent->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	CameraComponent->SetOrthoWidth(1950.f);
 
 	SpringArmComponent->SetUsingAbsoluteRotation(true);
 	CameraComponent->bUsePawnControlRotation = false;
@@ -64,7 +65,13 @@ void AMainChar::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AllFlipbooks.Add("Ninja", NinjaFlipbooks);
+	AllFlipbooks.Add("Monkey", MonkeyFlipbooks);
+
 	RespawnLocation = GetActorLocation();
+
+	CurrentMainCharState = EMainCharState::Ninja;
+	CurrentFlipbooks = AllFlipbooks["Ninja"];
 
 	AttackBox->OnComponentBeginOverlap.AddDynamic(this, &AMainChar::CombatBeginOverlap);
 	AttackBox->OnComponentEndOverlap.AddDynamic(this, &AMainChar::CombatEndOverlap);
@@ -104,6 +111,7 @@ void AMainChar::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainChar::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMainChar::StopJumping);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainChar::Attack);
+	PlayerInputComponent->BindAction("Transform", IE_Pressed, this, &AMainChar::ChangeMainCharState);
 }
 
 void AMainChar::MoveRight(float value)
@@ -117,6 +125,8 @@ void AMainChar::MoveRight(float value)
 void AMainChar::UpdateCharacter()
 {
 	bIsAlive = HealthComp->isAlive();
+
+	SetCorrectFlipbooks();
 
 	UpdateAnimation();
 
@@ -137,6 +147,18 @@ void AMainChar::UpdateCharacter()
 
 }
 
+void AMainChar::SetCorrectFlipbooks()
+{
+	if (CurrentMainCharState == EMainCharState::Ninja)
+	{
+		CurrentFlipbooks = AllFlipbooks["Ninja"];
+	}
+	if (CurrentMainCharState == EMainCharState::Monkey)
+	{
+		CurrentFlipbooks = AllFlipbooks["Monkey"];
+	}
+}
+
 void AMainChar::UpdateAnimation()
 {
 	bool bIsFalling = GetMovementComponent()->IsFalling();
@@ -151,7 +173,7 @@ void AMainChar::UpdateAnimation()
 			{
 				if (bCanBeDamaged)
 				{
-					UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.f) ? RunAnimation : IdleAnimation;
+					UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.f) ? CurrentFlipbooks.RunAnimation : CurrentFlipbooks.IdleAnimation;
 
 					if (GetSprite()->GetFlipbook() != DesiredAnimation)
 					{
@@ -161,20 +183,32 @@ void AMainChar::UpdateAnimation()
 			}
 			else
 			{
-				GetSprite()->SetFlipbook(AttackAnimation);
+				GetSprite()->SetFlipbook(CurrentFlipbooks.AttackAnimation);
 			}
 		}
 		else
 		{
-			if (GetSprite()->GetFlipbook() != JumpAnimation)
+			if (GetSprite()->GetFlipbook() != CurrentFlipbooks.JumpAnimation)
 			{
-				GetSprite()->SetFlipbook(JumpAnimation);
+				GetSprite()->SetFlipbook(CurrentFlipbooks.JumpAnimation);
 			}
 		}
 	}
 	else
 	{
-		GetSprite()->SetFlipbook(DeathAnimation);
+		GetSprite()->SetFlipbook(CurrentFlipbooks.DeathAnimation);
+	}
+}
+
+void AMainChar::ChangeMainCharState()
+{
+	if (CurrentMainCharState == EMainCharState::Ninja)
+	{
+		CurrentMainCharState = EMainCharState::Monkey;
+	}
+	else if (CurrentMainCharState == EMainCharState::Monkey)
+	{
+		CurrentMainCharState = EMainCharState::Ninja;
 	}
 }
 
@@ -213,7 +247,7 @@ void AMainChar::IfDead()
 {
 	HealthComp->ResetHealth();
 	bIsAlive = HealthComp->isAlive();
-	SetActorLocation(FVector(0, 100, 240));
+	SetActorLocation(RespawnLocation);
 }
 
 
@@ -282,7 +316,7 @@ void AMainChar::CPBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 
 			if (!NewCP->IsChecked)
 			{
-				RespawnLocation = NewCP->GetActorLocation();
+				RespawnLocation = FVector(NewCP->GetActorLocation().X, NewCP->GetActorLocation().Y + 10, NewCP->GetActorLocation().Z);
 
 				NewCP->IsChecked = true;
 			}
