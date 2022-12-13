@@ -126,6 +126,8 @@ void AMainChar::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMainChar::StopJumping);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainChar::Attack);
 	PlayerInputComponent->BindAction("Transform", IE_Pressed, this, &AMainChar::ChangeMainCharState);
+	PlayerInputComponent->BindAction("Pickup", IE_Pressed, this, &AMainChar::PickupObject);
+
 }
 
 void AMainChar::MoveRight(float value)
@@ -218,11 +220,18 @@ void AMainChar::ChangeMainCharState()
 {
 	if (CurrentMainCharState == EMainCharState::Ninja)
 	{
-		CurrentMainCharState = EMainCharState::Monkey;
+		if (InventoryComponent->CheckInventoryForMonkey())
+		{
+			CurrentMainCharState = EMainCharState::Monkey;
+		}
 	}
 	else if (CurrentMainCharState == EMainCharState::Monkey)
 	{
 		CurrentMainCharState = EMainCharState::Ninja;
+	}
+	else
+	{
+
 	}
 }
 

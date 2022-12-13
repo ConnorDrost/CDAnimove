@@ -3,6 +3,7 @@
 
 #include "../InventoryComponent/InventoryComponent.h"
 #include "../Pickup/Pickup.h"
+#include "../Pickup/MonkeyPickup/MonkeyPickup.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -16,13 +17,26 @@ UInventoryComponent::UInventoryComponent()
 
 void UInventoryComponent::AddToInventory(APickup* pickup)
 {
+	Cast<APickup>(pickup);
+
 	Inventory.Add(pickup);
 
 	pickup->Disable();
 }
 
-bool UInventoryComponent::CheckInventoryFor()
+bool UInventoryComponent::CheckInventoryForMonkey()
 {
+	if (Inventory.Num() > 0)
+	{
+		for (int i = 0; i < Inventory.Num(); i++)\
+		{
+			if (Inventory[i]->IsA<AMonkeyPickup>())
+			{
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 

@@ -21,7 +21,7 @@ public:
 
 	void AddToInventory(APickup* pickup);
 
-	bool CheckInventoryFor();
+	bool CheckInventoryForMonkey();
 
 protected:
 	// Called when the game starts
