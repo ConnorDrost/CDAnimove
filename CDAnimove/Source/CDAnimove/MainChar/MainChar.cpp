@@ -19,6 +19,7 @@
 #include "Components/CapsuleComponent.h"
 #include "../InventoryComponent/InventoryComponent.h"
 #include "../Pickup/Pickup.h"
+#include "../Pickup/HealthPickup/HealthPickup.h"
 #include "Components/SphereComponent.h"
 
 AMainChar::AMainChar()
@@ -58,6 +59,9 @@ AMainChar::AMainChar()
 	PickupSphere->SetCollisionProfileName("OverlapAll");
 	PickupSphere->SetupAttachment(RootComponent);
 
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>("Player Inventory");
+
+
 	NoiseEmitterComponent = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("Noise Emitter"));
 
 	bIsAttacking = false;
@@ -88,8 +92,8 @@ void AMainChar::BeginPlay()
 	AttackBox->OnComponentBeginOverlap.AddDynamic(this, &AMainChar::CombatBeginOverlap);
 	AttackBox->OnComponentEndOverlap.AddDynamic(this, &AMainChar::CombatEndOverlap);
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMainChar::CPBeginOverlap);
-	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AMainChar::CPEndOverlap);
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMainChar::WorldItemBeginOverlap);
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AMainChar::WorldItemEndOverlap);
 }
 
 void AMainChar::Tick(float DeltaSeconds)
@@ -329,7 +333,7 @@ void AMainChar::MakeSomeNoise()
 	MakeNoise(1.0f, this, GetActorLocation());
 }
 
-void AMainChar::CPBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AMainChar::WorldItemBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && OtherActor != this)
 	{
@@ -344,10 +348,20 @@ void AMainChar::CPBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 				NewCP->IsChecked = true;
 			}
 		}
+		if (OtherActor->IsA<AHealthPickup>())
+		{
+			AHealthPickup* HealthPickup = static_cast<AHealthPickup*>(OtherActor);
+
+			float BonusHealth = HealthPickup->BonusHealth;
+
+			HealthComp->IncreaseHealth(BonusHealth);
+
+			HealthPickup->Disable();
+		}
 	}
 }
 
-void AMainChar::CPEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void AMainChar::WorldItemEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 
 }
