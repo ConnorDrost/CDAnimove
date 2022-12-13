@@ -30,6 +30,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform")
 		bool Horizontal;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform")
+		bool Vertical;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform")
+		bool Backwards;
+
 
 private:
 

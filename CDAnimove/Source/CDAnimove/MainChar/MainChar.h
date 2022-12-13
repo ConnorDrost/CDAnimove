@@ -55,7 +55,7 @@ public:
 		class UCameraComponent* CameraComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-		class USpringArmComponent* SpringArmComponent;
+		class UZLockedSpringArmComponent* SpringArmComponent;
 
 	//Combat
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
@@ -102,7 +102,7 @@ public:
 		float Speed;
 
 	//Sound
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 		class UPawnNoiseEmitterComponent* NoiseEmitterComponent;
 
 	UFUNCTION()
@@ -116,6 +116,14 @@ public:
 		virtual void CPEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	FVector RespawnLocation;
+
+	//Inventory
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+		class USphereComponent* PickupSphere;
+
+	class UInventoryComponent* InventoryComponent;
+
+	void PickupObject();
 
 	//Misc
 	virtual void Tick(float DeltaSeconds) override;

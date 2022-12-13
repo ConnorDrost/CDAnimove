@@ -1,10 +1,11 @@
-<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>387</x><y>423</y><w>198</w><h>117</h></coordinates><panel_attributes>&lt;&lt;AGameModeBase&gt;&gt;
+<diagram program="umletino" version="15.0.0"><zoom_level>3</zoom_level><help_text>Space for diagram notes
+</help_text><element><id>UMLClass</id><coordinates><x>702</x><y>291</y><w>66</w><h>39</h></coordinates><panel_attributes>&lt;&lt;AGameModeBase&gt;&gt;
 UEGameMode
 --
 
 
 --
-# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>738</x><y>423</y><w>396</w><h>288</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>564</x><y>144</y><w>132</w><h>96</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
 Board
 --
 UPROPERTY(EditAnywhere, Category = "Actor Visual")
@@ -25,13 +26,13 @@ UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
 + Tick(DeltaTime: float): void &lt;virtual override&gt;
 
 # BeginPlay(): void &lt;virtaul override&gt;
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>576</x><y>441</y><w>180</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>663</x><y>237</y><w>48</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=    1
+m2= 1..*
+has</panel_attributes><additional_attributes>10;10;130;180</additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>297</y><w>108</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
-has</panel_attributes><additional_attributes>180;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>441</y><w>135</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1
-m2=1
-has</panel_attributes><additional_attributes>10;20;130;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>423</y><w>279</w><h>171</h></coordinates><panel_attributes>&lt;&lt;AHUD&gt;&gt;
+has</panel_attributes><additional_attributes>10;20;340;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>291</y><w>93</w><h>57</h></coordinates><panel_attributes>&lt;&lt;AHUD&gt;&gt;
 AGameHUD
 --
 UPROPERTY(EditAnywhere, Category = "Game Hud")
@@ -40,7 +41,7 @@ UPROPERTY(EditAnywhere, Category = "Game Hud")
 UPROPERTY()
 + PlayerGui: UUserWidget*
 --
-# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>387</x><y>648</y><w>189</w><h>135</h></coordinates><panel_attributes>&lt;&lt;AGameStateBase&gt;&gt;
+# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>861</x><y>291</y><w>63</w><h>45</h></coordinates><panel_attributes>&lt;&lt;AGameStateBase&gt;&gt;
 UEGameState
 --
 + PlayerScore: float
@@ -48,10 +49,10 @@ UEGameState
 --
 
 UFUNCTION()
-+ GetPlayerScore(): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>468</x><y>531</y><w>45</w><h>135</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
++ GetPlayerScore(): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>765</x><y>294</y><w>102</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
-has</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2421</x><y>423</y><w>450</w><h>774</h></coordinates><panel_attributes>&lt;&lt;AMainChar&gt;&gt;
+has</panel_attributes><additional_attributes>320;21;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>957</x><y>441</y><w>150</w><h>258</h></coordinates><panel_attributes>&lt;&lt;AMainChar&gt;&gt;
 AICharacterGuard
 --
 
@@ -108,18 +109,17 @@ UFUNCTION()
 + SetTargetActor(target:AActor*)
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2970</x><y>423</y><w>252</w><h>108</h></coordinates><panel_attributes>&lt;&lt;Enum Class&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1140</x><y>441</y><w>36</w><h>27</h></coordinates><panel_attributes>&lt;&lt;Enum Class&gt;&gt;
 EAIState
 --
-Idle = 0 UMETA(DisplayName = "Idle")
+Idle,
+Alerted
 
-Alerted = 0 UMETA(DisplayName = "Alerted")
 
-
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2349</x><y>459</y><w>90</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2862</x><y>468</y><w>126</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>933</x><y>453</y><w>30</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1104</x><y>456</y><w>42</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
-has</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1593</x><y>72</y><w>378</w><h>243</h></coordinates><panel_attributes>&lt;&lt;UActorComponent&gt;&gt;
+has</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>852</x><y>930</y><w>126</w><h>81</h></coordinates><panel_attributes>&lt;&lt;UActorComponent&gt;&gt;
 HealthComponent
 --
 
@@ -135,19 +135,17 @@ UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health")
 + IncreaseHealth(decrease:float): void
 + ResetHealth(): void
 + GetHealth(): float
-+ IsAlive(): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1773</x><y>306</y><w>27</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1215</x><y>1764</y><w>288</w><h>171</h></coordinates><panel_attributes>&lt;&lt;Enum Class &gt;&gt;
++ IsAlive(): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>906</x><y>870</y><w>9</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>579</x><y>930</y><w>42</w><h>27</h></coordinates><panel_attributes>&lt;&lt;Enum Class &gt;&gt;
 MainCharState
 --
-
-Ninja = 0 UMETA(DisplayName = "Ninja")
-
-Monkey = 0 UMETA(DisplayName = "Monkey")
+Ninja,
+Monkey
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1341</x><y>1629</y><w>45</w><h>153</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>597</x><y>870</y><w>15</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
-has</panel_attributes><additional_attributes>10;150;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1638</x><y>1764</y><w>405</w><h>315</h></coordinates><panel_attributes>&lt;&lt;Struct&gt;&gt;
+has</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>684</x><y>930</y><w>135</w><h>105</h></coordinates><panel_attributes>&lt;&lt;Struct&gt;&gt;
 CharacterFlipbook
 --
 
@@ -167,10 +165,10 @@ UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 + DeathAnimation:UPaperFlipBook*
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1818</x><y>1629</y><w>45</w><h>153</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1..*
-m2=1
-has</panel_attributes><additional_attributes>10;150;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1215</x><y>432</y><w>1143</w><h>1206</h></coordinates><panel_attributes>&lt;&lt;ACharacter&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>744</x><y>870</y><w>18</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=		1..*
+m2=		1
+has</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>555</x><y>444</y><w>381</w><h>429</h></coordinates><panel_attributes>&lt;&lt;ACharacter&gt;&gt;
 MainChar
 --
 
@@ -215,6 +213,10 @@ UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 
 # AllFlipbooks: TArray&lt;CharacterFlipbook&gt;
 
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
++ PickupSphere: USphereComponent*
+
++ InventoryComp: 
 --
 + AMainChar()
 
@@ -260,10 +262,25 @@ UFUNCTION()
 
 # ChangeMainCharState(): void
 
++ PickupObject(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>984</x><y>750</y><w>138</w><h>93</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+Checkpoint
+--
+UPROPERTY(EditAnywhere, Category = "Actor Visual")
++ CheckpointSprite: UPaperSpriteComponent*
 
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom")
++ CollisionBox:UBoxComponent*
 
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "On/Off Switch")
++ IsChecked: bool
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>738</x><y>0</y><w>414</w><h>342</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+--
+
++ ACheckpoint()
+
++ Tick(DeltaTime:float): void &lt;virtual override&gt;
+
+# BeginPlay(): void &lt;virtual override&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>933</x><y>771</y><w>57</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>771</x><y>84</y><w>138</w><h>150</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
 MovingPlatform
 --
 
@@ -282,6 +299,13 @@ UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform")
 UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")
 + Horizontal: bool
 
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")
++ Vertical: bool
+
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")
++ Backwards: bool
+
+
 - DistanceTraveled: float
 
 --
@@ -289,4 +313,74 @@ UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")
 - Move(delta:float): void
 
 - ChangeDirection(): void
-</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>765</x><y>231</y><w>48</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1= 			1
+m2=    1..*
+has</panel_attributes><additional_attributes>130;10;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>729</x><y>327</y><w>15</w><h>123</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1= 	1
+m2= 1
+has</panel_attributes><additional_attributes>10;390;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>765</x><y>327</y><w>198</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=         1
+                    has				</panel_attributes><additional_attributes>640;380;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>381</x><y>810</y><w>99</w><h>51</h></coordinates><panel_attributes>&lt;&lt;USpringArmComponent&gt;&gt;
+
+--
+
+- OrignalRelativeLocation:FVector
+
+--
+
++ LockZAxis(playervelocity: FVector, delta:float): void
+
++ SetOriginalLocation(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>477</x><y>831</y><w>84</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+has</panel_attributes><additional_attributes>10;20;260;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>387</x><y>627</y><w>78</w><h>57</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+InventoryComponent
+--
+
+UPROPERTY(VisibleAnywhere)
++ Inventory: TArray&lt;APickup*&gt;
+
+--
+
++ AddToInventory(pickup: APickup*): void 
+
++ CheckInventoryFor(): bool
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>492</y><w>129</w><h>87</h></coordinates><panel_attributes>&lt;&lt;AActor&gt;&gt;
+Pickup
+--
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+# PickupSprite: UPaperSpriteComponent
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+# CollisionSphere: USphereComponent
+--
+
+APickup()
+
+UFUNCTION()
++ Disable(): void
+
+# BeginPlay(): void &lt;virtual override&gt;
+
++ Tick(): void &lt;virtual override&gt;
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>423</x><y>576</y><w>9</w><h>57</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>645</y><w>99</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1= 	1
+m2= 1
+has</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>318</x><y>495</y><w>48</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>480</y><w>63</w><h>24</h></coordinates><panel_attributes>&lt;&lt;APickup&gt;&gt;
+MonkeyPickup
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>198</x><y>516</y><w>123</w><h>45</h></coordinates><panel_attributes>&lt;&lt;APickup&gt;&gt;
+HealthPickup
+--
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
++ HealthAmount: float
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>318</x><y>534</y><w>48</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element></diagram>

@@ -8,6 +8,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Actor.h"
 #include "Camera/CameraComponent.h"
+#include "../ZLockedSpringArmComponent/ZLockedSpringArmComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/BoxComponent.h"
 #include "TimerManager.h"
@@ -16,6 +17,9 @@
 #include "../AI/AICharacterGuard.h"
 #include "../Checkpoint/Checkpoint.h"
 #include "Components/CapsuleComponent.h"
+#include "../InventoryComponent/InventoryComponent.h"
+#include "../Pickup/Pickup.h"
+#include "Components/SphereComponent.h"
 
 AMainChar::AMainChar()
 {
@@ -23,16 +27,16 @@ AMainChar::AMainChar()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = true;
 
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArmComponent = CreateDefaultSubobject<UZLockedSpringArmComponent>(TEXT("SpringArm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->SetUsingAbsoluteRotation(true);
 	SpringArmComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	SpringArmComponent->bDoCollisionTest = false;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
+	CameraComponent->SetupAttachment(SpringArmComponent, UZLockedSpringArmComponent::SocketName);
 	CameraComponent->SetProjectionMode(ECameraProjectionMode::Orthographic);
-	CameraComponent->SetOrthoWidth(1950.f);
+	CameraComponent->SetOrthoWidth(1850.f);
 
 	SpringArmComponent->SetUsingAbsoluteRotation(true);
 	CameraComponent->bUsePawnControlRotation = false;
@@ -47,6 +51,12 @@ AMainChar::AMainChar()
 	AttackBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	HealthComp = CreateDefaultSubobject<UHealthComponent>("HealthComp");
+
+	PickupSphere = CreateDefaultSubobject<USphereComponent>("Pickup Sphere");
+	PickupSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	PickupSphere->SetSimulatePhysics(false);
+	PickupSphere->SetCollisionProfileName("OverlapAll");
+	PickupSphere->SetupAttachment(RootComponent);
 
 	NoiseEmitterComponent = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("Noise Emitter"));
 
@@ -65,6 +75,8 @@ void AMainChar::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SpringArmComponent->SetOriginalZ(GetActorLocation().Z);
+
 	AllFlipbooks.Add("Ninja", NinjaFlipbooks);
 	AllFlipbooks.Add("Monkey", MonkeyFlipbooks);
 
@@ -82,8 +94,10 @@ void AMainChar::BeginPlay()
 
 void AMainChar::Tick(float DeltaSeconds)
 {
-
 	Super::Tick(DeltaSeconds);
+
+	const FVector PlayerVelocity = GetVelocity();
+	SpringArmComponent->LockZAxis(GetActorLocation().Z, GetVelocity().Z, DeltaSeconds);
 
 	if (bIsAlive)
 	{
@@ -328,3 +342,19 @@ void AMainChar::CPEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 
 }
+
+void AMainChar::PickupObject()
+{
+	TArray<AActor*> pickups;
+
+	PickupSphere->GetOverlappingActors(pickups, APickup::StaticClass());
+
+	if (pickups.Num() > 0)
+	{
+		for (int i = 0; i < pickups.Num(); i++)
+		{
+			InventoryComponent->AddToInventory(Cast<APickup>(pickups[i]));
+		}
+	}
+}
+

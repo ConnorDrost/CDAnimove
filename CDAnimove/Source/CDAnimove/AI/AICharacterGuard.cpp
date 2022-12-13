@@ -14,16 +14,12 @@
 
 AAICharacterGuard::AAICharacterGuard()
 
-{
+{  
     PrimaryActorTick.bCanEverTick = true;
 
     PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 
     PawnSensingComp->OnSeePawn.AddDynamic(this, &AAICharacterGuard::OnPawnSeen);
-
-    GuardState = EAIState::Idle;
-
-    HealthComp->MaxHealth = 10.f;
 
     Tags.Empty();
     Tags.Add("Enemy");
@@ -34,6 +30,10 @@ void AAICharacterGuard::BeginPlay()
     Super::BeginPlay();
 
     pController = GetController();
+
+    GuardState = EAIState::Idle;
+
+    HealthComp->MaxHealth = 10.f;
 
     bIsAlive = HealthComp->isAlive();
 

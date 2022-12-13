@@ -26,31 +26,41 @@ AMovingPlatform::AMovingPlatform()
 
 void AMovingPlatform::Move(float delta)
 {
-	if (Horizontal == true)
+	if (Horizontal == true || Vertical == true)
 	{
 		DistanceTraveled += abs(Speed * delta);
-		
+
 		if (DistanceTraveled >= TravelDistance)
 		{
 			ChangeDirection();
 		}
 
-		FVector NewLocation = FVector(GetActorLocation().X + Speed * delta, GetActorLocation().Y, GetActorLocation().Z);
-		
-		SetActorLocation(NewLocation);
+		if (Horizontal == true)
+		{
+			if (!Backwards)
+			{
+				FVector NewLocation = FVector(GetActorLocation().X + Speed * delta, GetActorLocation().Y, GetActorLocation().Z);
+
+				SetActorLocation(NewLocation);
+			}
+			else
+			{
+				FVector NewLocation = FVector(GetActorLocation().X - Speed * delta, GetActorLocation().Y, GetActorLocation().Z);
+
+				SetActorLocation(NewLocation);
+			}
+		}
+
+		if (Vertical == true)
+		{
+			FVector NewLocation = FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + Speed * delta);
+
+			SetActorLocation(NewLocation);
+		}
 	}
-	else if (Horizontal == false)
+	else
 	{
-		DistanceTraveled += Speed * delta;
 
-		if (DistanceTraveled >= TravelDistance)
-		{
-			ChangeDirection();
-		}
-
-		FVector NewLocation = FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + Speed * delta);
-
-		SetActorLocation(NewLocation);
 	}
 }
 
