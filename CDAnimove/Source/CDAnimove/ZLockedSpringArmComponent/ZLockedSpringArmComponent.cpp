@@ -3,27 +3,17 @@
 
 #include "../ZLockedSpringArmComponent/ZLockedSpringArmComponent.h"
 
-void UZLockedSpringArmComponent::SetOriginalZ(float zlocation)
+void UZLockedSpringArmComponent::LockZAxis(float zvelocity, float delta)
 {
-	OriginalCharZ = zlocation;
-	OriginalZ = GetRelativeLocation().Z;
-}
-
-void UZLockedSpringArmComponent::LockZAxis(float newZ, float zvelocity, float delta)
-{
-	float distance = newZ - OriginalCharZ;
-
 	FVector NewLocation = GetRelativeLocation();
 
-	if (zvelocity > 0)
-	{
+	if (zvelocity != 0)
+	{ 
 		NewLocation.Z -= zvelocity * delta;
-		//NewLocation.Z -= distance * delta;
 	}
-	else if (zvelocity < 0)
+	else
 	{
-		NewLocation.Z -= zvelocity * delta;
-		//NewLocation.Z += distance * delta;
+
 	}
 
 	SetRelativeLocation(NewLocation);

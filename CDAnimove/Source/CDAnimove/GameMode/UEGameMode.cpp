@@ -11,7 +11,7 @@ void AUEGameMode::BeginPlay()
 	if (controller)
 	{
 		FString command = "show collision";
-		//controller->ConsoleCommand(command, true);
+		controller->ConsoleCommand(command, true);
 		controller->bShowMouseCursor = true;
 		controller->bEnableClickEvents = true;
 		controller->bEnableMouseOverEvents = true;

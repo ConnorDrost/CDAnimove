@@ -57,6 +57,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 		class UZLockedSpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+		class UBoxComponent* CameraCollider;
+
+
 	//Combat
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 		class UBoxComponent* AttackBox;

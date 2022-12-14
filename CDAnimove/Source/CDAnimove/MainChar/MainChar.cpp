@@ -32,7 +32,7 @@ AMainChar::AMainChar()
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->SetUsingAbsoluteRotation(true);
 	SpringArmComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
-	SpringArmComponent->bDoCollisionTest = false;
+	SpringArmComponent->bDoCollisionTest = true;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent, UZLockedSpringArmComponent::SocketName);
@@ -47,7 +47,7 @@ AMainChar::AMainChar()
 	GetCharacterMovement()->SetPlaneConstraintNormal(FVector(0.f, -1.f, 0.f));
 
 	AttackBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LowAttackBox"));
-	AttackBox->SetupAttachment(GetSprite());
+	AttackBox->SetupAttachment(RootComponent);
 	AttackBox->SetCollisionProfileName("OverlapAll");
 	AttackBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
@@ -79,8 +79,6 @@ void AMainChar::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpringArmComponent->SetOriginalZ(GetActorLocation().Z);
-
 	AllFlipbooks.Add("Ninja", NinjaFlipbooks);
 	AllFlipbooks.Add("Monkey", MonkeyFlipbooks);
 
@@ -100,8 +98,7 @@ void AMainChar::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	const FVector PlayerVelocity = GetVelocity();
-	SpringArmComponent->LockZAxis(GetActorLocation().Z, GetVelocity().Z, DeltaSeconds);
+	SpringArmComponent->LockZAxis(GetVelocity().Z, DeltaSeconds);
 
 	if (bIsAlive)
 	{
@@ -217,6 +214,15 @@ void AMainChar::UpdateAnimation()
 	else
 	{
 		GetSprite()->SetFlipbook(CurrentFlipbooks.DeathAnimation);
+	}
+
+	if (CurrentMainCharState == EMainCharState::Monkey)
+	{
+		GetSprite()->SetWorldScale3D(FVector(4.f, 1.f, 4.f));
+	}
+	else if (CurrentMainCharState == EMainCharState::Ninja)
+	{
+		GetSprite()->SetWorldScale3D(FVector(0.75f, 1.f, 0.75f));
 	}
 }
 

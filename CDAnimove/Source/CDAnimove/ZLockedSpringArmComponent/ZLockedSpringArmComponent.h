@@ -15,14 +15,8 @@ class CDANIMOVE_API UZLockedSpringArmComponent : public USpringArmComponent
 	GENERATED_BODY()
 
 public:
-
-	void SetOriginalZ(float z);
-
-	void  LockZAxis(float newZ, float zvelocity, float delta);
+	void  LockZAxis(float zvelocity, float delta);
 
 private:
 
-	float OriginalZ;
-	float OriginalCharZ;
-	
 };
